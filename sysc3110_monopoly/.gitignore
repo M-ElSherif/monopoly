@@ -27,3 +27,7 @@ workspace.xml
 task.xml
 .idea
 .vscode
+/learning/
+/docs/
+/diagrams/
+/.idea/

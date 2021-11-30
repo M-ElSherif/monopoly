@@ -11,6 +11,7 @@ public class Player {
     private String name;
     private double wealth;
     private int position;
+    private boolean inJail;
     private HashMap<Property, List<Integer>> ownedAssets; // Integer[] array represents houses then hotels
 
     /**
@@ -138,6 +139,14 @@ public class Player {
         this.position = position;
     }
 
+    public boolean isInJail() {
+        return inJail;
+    }
+
+    public void setInJail(boolean inJail) {
+        this.inJail = inJail;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
@@ -153,11 +162,11 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return Double.compare(player.wealth, wealth) == 0 && position == player.position && Objects.equals(name, player.name) && Objects.equals(ownedAssets, player.ownedAssets);
+        return name.equals(player.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, wealth, position, ownedAssets);
+        return Objects.hash(name);
     }
 }

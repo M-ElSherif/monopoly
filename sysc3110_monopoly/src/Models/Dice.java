@@ -14,22 +14,12 @@ public class Dice {
         return (int) (Math.random() * 6) + 1;
     }
 
-    /**
-     * Rolls the two Models.Dice
-     *
-     * @return a sum value of the two dice
-     */
     public int rollDice() {
         this.die1 = rollDie();
         this.die2 = rollDie();
         return this.die1 + this.die2;
     }
 
-    /**
-     * Checks if the two dice rolled are equal
-     *
-     * @return true if dice rolled are equal and false otherwise
-     */
     public boolean rolledDouble() {
         return die1 == die2;
     }

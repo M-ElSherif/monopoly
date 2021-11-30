@@ -1,8 +1,6 @@
 package Models;// Integrates with play.java
 // Will receive a property object from the play.java
 
-import Helpers.ErrorLog;
-
 /**
  * Author: Kareem El Assad Date: 2021-10-20
  */
@@ -108,5 +106,11 @@ public class Property {
      */
     public void setOwner(Player owner) {
         this.owner = owner;
+    }
+
+    // TODO fix
+    @Override
+    public String toString() {
+        return name;
     }
 }

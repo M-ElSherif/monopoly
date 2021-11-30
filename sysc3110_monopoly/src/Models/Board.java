@@ -57,6 +57,7 @@ public class Board {
 
     public Board() {
         properties = new HashMap<>();
+        this.createBoard();
     }
 
     /**
@@ -112,15 +113,7 @@ public class Board {
 
     }
 
-    public Property getProperty(int position) {
-        return this.properties.get(position);
-    }
-
-    public void setProperty(int position, Property property) {
-        this.properties.put(position, property);
-    }
-
-    public boolean removeOwner(Player player) {
+    public boolean removePropertyOwner(Player player) {
         Collection<Property> properties = this.properties.values();
 
         for (Property p : this.properties.values()) {
@@ -134,6 +127,24 @@ public class Board {
 
     public int getMaxPosition() {
         Set<Integer> positions = this.properties.keySet();
+
         return Collections.max(positions);
     }
+
+    public int getJailPosition() {
+        return 10;
+    }
+
+    public int getGoPosition() {
+        return 0;
+    }
+
+    public Property getProperty(int position) {
+        return this.properties.get(position);
+    }
+
+    public void setProperty(int position, Property property) {
+        this.properties.put(position, property);
+    }
+
 }

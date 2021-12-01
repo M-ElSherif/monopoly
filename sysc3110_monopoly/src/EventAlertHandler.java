@@ -1,9 +1,10 @@
 import Models.Player;
 import Models.Property;
+import Models.Property;
 
-public class EventHandler {
+public class EventAlertHandler {
 
-    public EventHandler() {
+    public EventAlertHandler() {
     }
 
     public static String buyPropertyEvent(Property property) {
@@ -30,9 +31,10 @@ public class EventHandler {
     }
 
     public static String landedOnPropertyEvent(Player player, Property property) {
-        return String.format("Player %s landed on %s. Property is owned by: %s ",
+        return String.format("Player %s landed on %s, cost is $%.0f. Property is owned by: %s ",
                 player.getName(),
                 property.getName(),
+                property.getCost(),
                 property.getOwner() == null ? "NO OWNER" : property.getOwner());
     }
 

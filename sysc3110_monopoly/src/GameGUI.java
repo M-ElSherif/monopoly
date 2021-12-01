@@ -13,6 +13,8 @@ public class GameGUI {
     private final int PRINTSTATUS = 4;
     private final int BUYPROPERTY = 5;
     private final int ENDGAME = 6;
+    private final int BUYHOUSE = 7;
+    private final int BUYHOTEL = 8;
 
     public GameGUI(GamePlay gamePlay) {
         this.gamePlay = gamePlay;
@@ -54,6 +56,8 @@ public class GameGUI {
         System.out.println(QUITGAME + ": Quit the game");
         System.out.println(PRINTSTATUS + ": Print player status");
         System.out.println(BUYPROPERTY + ": Buy property");
+        System.out.println(BUYHOUSE + ": Buy house");
+        System.out.println(BUYHOTEL + ": Buy hotel");
         System.out.println(ENDGAME + ": End the game (if all players agree)");
 
         System.out.print("Your choice: ");
@@ -89,6 +93,14 @@ public class GameGUI {
             case BUYPROPERTY:
                 Property property = this.gamePlay.getGame().getProperty(cp.getPosition());
                 this.gamePlay.buyProperty(property);
+                break;
+            case BUYHOUSE:
+//                Property property = this.gamePlay.getGame().getProperty(cp.getPosition());
+//                this.gamePlay.buyProperty(property);
+                break;
+            case BUYHOTEL:
+//                Property property = this.gamePlay.getGame().getProperty(cp.getPosition());
+//                this.gamePlay.buyProperty(property);
                 break;
             case 9:
                 System.exit(0);

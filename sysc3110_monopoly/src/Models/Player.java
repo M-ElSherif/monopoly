@@ -12,7 +12,6 @@ public class Player {
     private double wealth;
     private int position;
     private boolean inJail;
-    private HashMap<Property, List<Integer>> ownedAssets; // Integer[] array represents houses then hotels
 
     /**
      * Constructor for the Models.Player class
@@ -23,61 +22,11 @@ public class Player {
         this.name = name;
         this.wealth = 1500;
         this.position = 0;
-        ownedAssets = new HashMap<Property, List<Integer>>();
-    }
-
-
-    //TODO add docs
-    public boolean addAsset(Property property, Integer houses, Integer hotels) {
-
-        if (this.ownedAssets.containsKey(property)) {
-            List<Integer> housesAndHotels = this.ownedAssets.get(property);
-            int houseCount = this.getHouseCount(property);
-            int hotelCount = this.getHotelCount(property);
-
-            if (houses != null && hotels == null) {
-                housesAndHotels.set(0, houseCount + houses);
-            } else if (houses == null && hotels != null) {
-                housesAndHotels.set(0, hotelCount + hotels);
-            } else {
-                housesAndHotels.set(0, houseCount + houses);
-                housesAndHotels.set(0, hotelCount + hotels);
-            }
-        } else {
-            List<Integer> housesAndHotels = new ArrayList<Integer>();
-            housesAndHotels.add(0, (houses == null ? 0 : houses));
-            housesAndHotels.add(1, (hotels == null ? 0 : hotels));
-            this.ownedAssets.put(property, housesAndHotels);
-        }
-
-        return true;
-    }
-
-    public boolean ownsProperty(Property property) {
-        if (this.ownedAssets.containsKey(property)) {
-            return true;
-        }
-        return false;
-    }
-
-    // TODO docs
-    public int getHouseCount(Property property) {
-        return this.ownedAssets.get(property).get(0);
-    }
-
-    // TODO docs
-    public int getHotelCount(Property property) {
-        return this.ownedAssets.get(property).get(1);
     }
 
     // TODO docs
     public boolean isBankrupt() {
         return this.getWealth() <= 0 ? true : false;
-    }
-
-    // TODO docs
-    public Set<Property> getProperties() {
-        return this.ownedAssets.keySet();
     }
 
     /**
@@ -153,7 +102,6 @@ public class Player {
                 "name='" + name + '\'' +
                 ", wealth=" + wealth +
                 ", position=" + position +
-                ", ownedAssets=" + ownedAssets +
                 '}';
     }
 

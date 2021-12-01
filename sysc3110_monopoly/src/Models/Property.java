@@ -1,116 +1,96 @@
-package Models;// Integrates with play.java
-// Will receive a property object from the play.java
+package Models;
 
-/**
- * Author: Kareem El Assad Date: 2021-10-20
- */
+import java.util.Objects;
+
 public class Property {
 
-    private Player owner;
-    private String name;
-    private String color;
-    private double cost;
-    private double rentCost;
-    private double houseCost;
-    private double hotelCost;
-    private int position;
+    protected Player owner;
+    protected String name;
+    protected double cost;
+    protected double rentCost;
+    protected int position;
 
-    /**
-     * Constructor for the Models.Property class
-     *
-     * @param name
-     * @param position
-     * @param color
-     * @param cost
-     * @param owner
-     */
     public Property(String name,
                     int position,
-                    String color,
                     double cost,
                     Player owner) {
+        this.owner = owner;
         this.name = name;
         this.cost = cost;
         this.rentCost = cost * 0.15;
-        this.houseCost = cost * 0.05;
-        this.hotelCost = cost * 0.10;
-        this.color = color;
         this.position = position;
-        this.owner = owner;
     }
 
-    // TODO docs
     public boolean removeOwner(Player player) {
         this.owner = null;
         return true;
     }
 
-    /**
-     * Gets the property name
-     *
-     * @return The property name as a string
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Gets the property cost
-     *
-     * @return The property cost as a double
-     */
-    public double getCost() {
-        return cost;
-    }
-
-    /**
-     * Gets the rent cost
-     *
-     * @return The rent cost as a double
-     */
-    public double getRentCost() {
-        return rentCost;
-    }
-
-    /**
-     * Gets the property color
-     *
-     * @return The property color as a string
-     */
-    public String getColor() {
-        return color;
-    }
-
-    /**
-     * Gets the property position as an index in the properties list
-     *
-     * @return The property position as an int
-     */
-    public int getPosition() {
-        return position;
-    }
-
-    /**
-     * Gets the current property owner
-     *
-     * @return The property owner as a string
-     */
+    //region Setters and Getters
     public Player getOwner() {
         return owner;
     }
 
-    /**
-     * Sets the current property owner
-     *
-     * @param owner as a string
-     */
-    public void setOwner(Player owner) {
-        this.owner = owner;
+    public boolean setOwner(Player player) {
+        if (this.owner == null) {
+            this.owner = player;
+            return true;
+        }
+
+        return false;
     }
 
-    // TODO fix
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public double getRentCost() {
+        return rentCost;
+    }
+
+    public void setRentCost(double rentCost) {
+        this.rentCost = rentCost;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    //endregion
+
+
     @Override
     public String toString() {
-        return name;
+        return "Property{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return Double.compare(property.cost, cost) == 0 && Double.compare(property.rentCost, rentCost) == 0 && position == property.position && name.equals(property.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cost, rentCost, position);
     }
 }

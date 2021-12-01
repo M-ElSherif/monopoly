@@ -1,6 +1,7 @@
 package Models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class serves to store all data relevant to a game of monopoly (persistence)
@@ -36,40 +37,6 @@ public class Game {
         return this.currentPlayer;
     }
 
-    public int getJailPosition() {
-        return this.board.getJailPosition();
-    }
-
-    public int getGoPosition() {
-        return this.board.getGoPosition();
-    }
-
-    public Player putInJail(Player player) {
-        if (this.getPlayer(player) != null) {
-            this.getPlayer(player).setInJail(true);
-        }
-
-        return this.getPlayer(player);
-    }
-
-    public int incrementTurnCount() {
-        this.turnCount++;
-
-        return this.turnCount;
-    }
-
-    public Property getProperty(int position) {
-        return this.board.getProperty(position);
-    }
-
-    public Player getPropertyOwner(int position) {
-        return this.board.getProperty(position).getOwner();
-    }
-
-    public boolean removePropertyOwner(Player player) {
-        return this.board.removePropertyOwner(player);
-    }
-
     public boolean addPlayer(Player player) {
         return this.playerList.add(player);
     }
@@ -86,6 +53,62 @@ public class Game {
         return this.playerList.size();
     }
 
+    public Property getProperty(int position) {
+        return this.board.getProperty(position);
+    }
+
+    public boolean setPropertyOwner(Player player, Property property) {
+        return this.board.setPropertyOwner(player, property);
+    }
+
+    public Player getPropertyOwner(int position) {
+        return this.board.getPropertyOwner(position);
+    }
+
+    public boolean removePropertyOwner(Player player) {
+        return this.board.removePropertyOwner(player);
+    }
+
+    public boolean addHouse(Property property) {
+        return this.board.addHouse(property);
+    }
+
+    public boolean addHotel(Property property) {
+        return this.board.addHotel(property);
+    }
+
+    public Player putInJail(Player player) {
+        if (this.getPlayer(player) != null) {
+            this.getPlayer(player).setInJail(true);
+        }
+
+        return this.getPlayer(player);
+    }
+
+    public List<Property> getPlayerProperties(Player player) {
+        return this.board.getPlayerProperties(player);
+    }
+
+    public String printPlayerProperties(Player player) {
+        return this.board.printPlayerProperties(player);
+    }
+
+    public int getJailPosition() {
+        return this.board.getJailPosition();
+    }
+
+    public int getGoPosition() {
+        return this.board.getGoPosition();
+    }
+
+    public int incrementTurnCount() {
+        this.turnCount++;
+
+        return this.turnCount;
+    }
+
+
+    //region Setters and Getters
     public ArrayList<Player> getPlayerList() {
         return playerList;
     }
@@ -125,5 +148,6 @@ public class Game {
     public void setBoard(Board board) {
         this.board = board;
     }
+    //endregion
 
 }

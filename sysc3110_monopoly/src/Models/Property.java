@@ -1,109 +1,96 @@
-package Models;// Integrates with play.java
-// Will receive a property object from the play.java
+package Models;
 
-/**
- * Author: Kareem El Assad Date: 2021-10-20
- *
- */
+import java.util.Objects;
+
 public class Property {
-    private String propertyName;
-    private double propertyCost;
-    private double rentCost;
-    private boolean isOwned;
-    private String propertyColor;
-    private int propertyPosition;
-    private String currentPropertyOwner;
 
-    /**
-     * Constructor for the Models.Property class
-     * @param propertyName
-     * @param propertyPosition
-     * @param propertyColor
-     * @param propertyCost
-     * @param isOwned
-     * @param currentPropertyOwner
-     */
-    public Property(String propertyName, int propertyPosition, String propertyColor, double propertyCost,
-                    boolean isOwned, String currentPropertyOwner) {
-        this.propertyName = propertyName;
-        this.propertyCost = propertyCost;
-        rentCost = propertyCost * 0.10;
-        this.isOwned = isOwned;
-        this.propertyColor = propertyColor;
-        this.propertyPosition = propertyPosition;
-        this.currentPropertyOwner = currentPropertyOwner;
+    protected Player owner;
+    protected String name;
+    protected double cost;
+    protected double rentCost;
+    protected int position;
+
+    public Property(String name,
+                    int position,
+                    double cost,
+                    Player owner) {
+        this.owner = owner;
+        this.name = name;
+        this.cost = cost;
+        this.rentCost = cost * 0.15;
+        this.position = position;
     }
 
-    /**
-     * Gets the property name
-     * @return The property name as a string
-     */
-    public String getPropertyName() {
-        return propertyName;
+    public boolean removeOwner(Player player) {
+        this.owner = null;
+        return true;
     }
 
-    /**
-     * Gets the property cost
-     * @return The property cost as a double
-     */
-    public double getPropertyCost() {
-        return propertyCost;
+    //region Setters and Getters
+    public Player getOwner() {
+        return owner;
     }
 
-    /**
-     * Gets the rent cost
-     * @return The rent cost as a double
-     */
+    public boolean setOwner(Player player) {
+        if (this.owner == null) {
+            this.owner = player;
+            return true;
+        }
+
+        return false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
     public double getRentCost() {
         return rentCost;
     }
 
-    /**
-     * Checks if isOwned is true or false
-     * @return IsOwned as a boolean
-     */
-    public boolean isOwned() {
-        return isOwned;
+    public void setRentCost(double rentCost) {
+        this.rentCost = rentCost;
     }
 
-    /**
-     * Sets the owner as true or flase
-     * @param isOwned
-     */
-    public void setOwned(boolean isOwned) {
-        this.isOwned = isOwned;
+    public int getPosition() {
+        return position;
     }
 
-    /**
-     * Gets the property color
-     * @return The property color as a string
-     */
-    public String getPropertyColor() {
-        return propertyColor;
+    public void setPosition(int position) {
+        this.position = position;
+    }
+    //endregion
+
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                '}';
     }
 
-    /**
-     * Gets the property position as an index in the properties list
-     * @return The property position as an int
-     */
-    public int getPropertyPosition() {
-        return propertyPosition;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return Double.compare(property.cost, cost) == 0 && Double.compare(property.rentCost, rentCost) == 0 && position == property.position && name.equals(property.name);
     }
 
-    /**
-     * Gets the current property owner
-     * @return The property owner as a string
-     */
-    public String getCurrentPropertyOwner() {
-        return currentPropertyOwner;
-    }
-
-    /**
-     * Sets the current property owner
-     *
-     * @param currentPropertyOwner as a string
-     */
-    public void setCurrentPropertyOwner(String currentPropertyOwner) {
-        this.currentPropertyOwner = currentPropertyOwner;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cost, rentCost, position);
     }
 }

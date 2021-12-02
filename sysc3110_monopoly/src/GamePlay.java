@@ -28,12 +28,12 @@ public class GamePlay {
 
 
     public int rollDice() {
-        int rollNumber = this.game.getDice().rollDice();
-        return this.game.getDice().getDiceRoll();
+        return this.game.rollDice();
     }
 
 
     public int movePlayerPosition(Player player, int diceRoll) {
+        // TODO player can do nothing but roll or pay fine if they are in jail
         int newPosition = player.getPosition() + diceRoll;
         int maxPos = this.game.getBoard().getMaxPosition();
 
@@ -47,27 +47,62 @@ public class GamePlay {
         return this.game.getPlayer(player).getPosition();
     }
 
-    public boolean checkPositionEvent(Player player) {
+    public boolean checkPositionEvents(Player player) {
         int position = player.getPosition();
         Property currentProperty = this.game.getProperty(position);
         System.out.println(EventAlertHandler.landedOnPropertyEvent(player, currentProperty));
 
         if (this.payRent(player)) {
-            System.out.println(EventAlertHandler.rentPayEvent(player, currentProperty.getOwner()));
+            return true;
         }
 
         if (position == this.game.getJailPosition()) {
-            System.out.println(EventAlertHandler.jailEvent(player));
-            // TODO Put in jail event
+            System.out.println(EventAlertHandler.jailEnterEvent(player));
+            this.goToJail(player);
+            this.passTurn(player);
+            return true;
         }
-
-
 
         return true;
     }
 
     // TODO check if go has been passed method
 
+    public boolean goToJail(Player player) {
+        int position = player.getPosition();
+
+        if (position == this.game.getJailPosition()) {
+            this.game.putInJail(player);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isDoubleRollForJailExit(Player player) {
+        if (this.game.isDiceRollDouble()) {
+            this.game.removeFromJail(player);
+            System.out.println(EventAlertHandler.jailExitDoubleEvent(player));
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean payJailFine(Player player) {
+        player.subtractWealth(50);
+
+        if (player.isBankrupt()) {
+            System.out.println(EventAlertHandler.bankruptcyAlertEvent(player));
+            return false;
+        }
+        else {
+            this.game.removeFromJail(player);
+            System.out.println(EventAlertHandler.jailExitPayEvent(player));
+        }
+
+        return true;
+    }
 
     public String printPlayerStatus(Player player) {
 
@@ -139,6 +174,7 @@ public class GamePlay {
             double rentCost = property.getRentCost();
             player.setWealth(player.getWealth() - rentCost);
             owner.setWealth(owner.getWealth() + rentCost);
+            System.out.println(EventAlertHandler.rentPayEvent(player, property.getOwner()));
 
             if (player.isBankrupt()) {
                 this.game.removePropertyOwner(player);

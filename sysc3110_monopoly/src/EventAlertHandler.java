@@ -44,8 +44,18 @@ public class EventAlertHandler {
                 owner.getName());
     }
 
-    public static String jailEvent(Player player) {
+    public static String jailEnterEvent(Player player) {
         return String.format("Player %s has been jailed!!",
+                player.getName());
+    }
+
+    public static String jailExitPayEvent(Player player) {
+        return String.format("Player %s has paid the fine and left jail!!",
+                player.getName());
+    }
+
+    public static String jailExitDoubleEvent(Player player) {
+        return String.format("Player %s has rolled a double and left jail!!",
                 player.getName());
     }
 

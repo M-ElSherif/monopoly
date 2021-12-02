@@ -24,6 +24,15 @@ public class Game {
         this.turnCount = 0;
     }
 
+    public int rollDice() {
+        this.dice.rollDice();
+        return this.dice.getDiceRoll();
+    }
+
+    public boolean isDiceRollDouble() {
+        return this.dice.rolledDouble();
+    }
+
     public Player passTurn(Player player) {
         int i = this.playerList.indexOf(player);
 
@@ -77,12 +86,22 @@ public class Game {
         return this.board.addHotel(property);
     }
 
-    public Player putInJail(Player player) {
+    public boolean putInJail(Player player) {
         if (this.getPlayer(player) != null) {
             this.getPlayer(player).setInJail(true);
+            return true;
         }
 
-        return this.getPlayer(player);
+        return false;
+    }
+
+    public boolean removeFromJail(Player player) {
+        if (this.getPlayer(player) != null) {
+            this.getPlayer(player).setInJail(false);
+            return true;
+        }
+
+        return false;
     }
 
     public List<Property> getPlayerProperties(Player player) {
@@ -94,7 +113,7 @@ public class Game {
     }
 
     public int getJailPosition() {
-        return this.board.getJailPosition();
+        return this.board.getGoJailPosition();
     }
 
     public int getGoPosition() {

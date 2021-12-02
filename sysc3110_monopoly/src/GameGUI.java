@@ -3,6 +3,9 @@ import Models.Property;
 
 import java.util.Scanner;
 
+/**
+ * This class is designed to test functionality, based on user selections
+ */
 public class GameGUI {
 
     private GamePlay gamePlay;
@@ -15,6 +18,8 @@ public class GameGUI {
     private final int ENDGAME = 6;
     private final int BUYHOUSE = 7;
     private final int BUYHOTEL = 8;
+    private final int PAYJAILFINE = 9;
+    private final int EXITAPP = 111;
 
     public GameGUI(GamePlay gamePlay) {
         this.gamePlay = gamePlay;
@@ -38,11 +43,27 @@ public class GameGUI {
         return false;
     }
 
-    public int FirstMenuOptions(Scanner scanner) {
+//    public int FirstMenuOptions(Scanner scanner) {
+//        System.out.println("\n" + ROLLDICE + ": Roll the dice");
+//        System.out.println(PASSTURN + ": Pass your turn");
+//        System.out.println(QUITGAME + ": Quit the game");
+//        System.out.println(PRINTSTATUS + ": Print player status");
+//        System.out.println(ENDGAME + ": End the game (if all players agree)");
+//
+//        System.out.print("Your choice: ");
+//        int choice = Integer.parseInt(scanner.nextLine());
+//
+//        return choice;
+//    }
+
+    public int SecondMenuOptions(Scanner scanner) {
         System.out.println("\n" + ROLLDICE + ": Roll the dice");
         System.out.println(PASSTURN + ": Pass your turn");
         System.out.println(QUITGAME + ": Quit the game");
         System.out.println(PRINTSTATUS + ": Print player status");
+        System.out.println(BUYPROPERTY + ": Buy property");
+        System.out.println(BUYHOUSE + ": Buy house");
+        System.out.println(BUYHOTEL + ": Buy hotel");
         System.out.println(ENDGAME + ": End the game (if all players agree)");
 
         System.out.print("Your choice: ");
@@ -51,13 +72,12 @@ public class GameGUI {
         return choice;
     }
 
-    public int SecondMenuOptions(Scanner scanner) {
+    public int JailMenuOptions(Scanner scanner) {
+        System.out.println("\n" + ROLLDICE + ": Roll the dice");
+        System.out.println(PAYJAILFINE + ": Pay the jail fine ($50)");
         System.out.println(PASSTURN + ": Pass your turn");
         System.out.println(QUITGAME + ": Quit the game");
         System.out.println(PRINTSTATUS + ": Print player status");
-        System.out.println(BUYPROPERTY + ": Buy property");
-        System.out.println(BUYHOUSE + ": Buy house");
-        System.out.println(BUYHOTEL + ": Buy hotel");
         System.out.println(ENDGAME + ": End the game (if all players agree)");
 
         System.out.print("Your choice: ");
@@ -74,35 +94,57 @@ public class GameGUI {
         switch (choice) {
             case ROLLDICE:
                 int diceRoll = this.gamePlay.rollDice();
+                // TODO first check the dice roll then proceed with moving player
+
+                if (cp.isInJail()) {
+                    if (this.gamePlay.isDoubleRollForJailExit(cp)) {
+                        this.gamePlay.movePlayerPosition(cp, diceRoll);
+                        this.gamePlay.checkPositionEvents(cp);
+                    } else {
+                        break;
+                    }
+                }
                 this.gamePlay.movePlayerPosition(cp, diceRoll);
-                this.gamePlay.checkPositionEvent(cp);
+                this.gamePlay.checkPositionEvents(cp);
                 break;
+
             case PASSTURN:
                 this.gamePlay.passTurn(cp);
                 break;
+
             case QUITGAME:
                 this.gamePlay.quitGame(cp);
                 bool = false;
                 break;
+
             case PRINTSTATUS:
                 System.out.println(this.gamePlay.printPlayerStatus(cp) + "\n");
                 break;
+
             case ENDGAME:
                 bool = false;
                 break;
+
             case BUYPROPERTY:
                 Property property = this.gamePlay.getGame().getProperty(cp.getPosition());
                 this.gamePlay.buyProperty(property);
                 break;
+
             case BUYHOUSE:
 //                Property property = this.gamePlay.getGame().getProperty(cp.getPosition());
 //                this.gamePlay.buyProperty(property);
                 break;
+
             case BUYHOTEL:
 //                Property property = this.gamePlay.getGame().getProperty(cp.getPosition());
 //                this.gamePlay.buyProperty(property);
                 break;
-            case 9:
+
+            case PAYJAILFINE:
+                this.gamePlay.payJailFine(cp);
+                break;
+
+            case EXITAPP:
                 System.exit(0);
                 break;
         }
@@ -111,6 +153,9 @@ public class GameGUI {
     }
 
 
+    /**
+     * This is ust to test functionalilty
+     */
     public void RunGame() {
         Scanner scanner = new Scanner(System.in);
 
@@ -120,19 +165,28 @@ public class GameGUI {
             }
         }
 
-        // TODO fix this
+        // Set the first player as the current player at game start
         this.gamePlay.getGame().setCurrentPlayer(gamePlay.getGame().getPlayerList().get(0));
 
         while (true) {
-            int choice = FirstMenuOptions(scanner);
+
+            Player cp = this.gamePlay.getGame().getCurrentPlayer();
+
+            if (cp.isInJail()) {
+                while (cp.isInJail()) {
+                    int choice = JailMenuOptions(scanner);
+                    if (!OptionTasks(choice)) {
+                        break;
+                    }
+                }
+            }
+
+
+            int choice = SecondMenuOptions(scanner);
             if (!OptionTasks(choice)) {
                 break;
             }
 
-            int choice2 = SecondMenuOptions(scanner);
-            if (!OptionTasks(choice2)) {
-                break;
-            }
         }
 
 

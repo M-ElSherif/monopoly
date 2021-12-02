@@ -13,11 +13,7 @@ public class Player {
     private int position;
     private boolean inJail;
 
-    /**
-     * Constructor for the Models.Player class
-     *
-     * @param name as a string
-     */
+
     public Player(String name) {
         this.name = name;
         this.wealth = 1500;
@@ -29,11 +25,7 @@ public class Player {
         return this.getWealth() <= 0 ? true : false;
     }
 
-    /**
-     * Gets the players name
-     *
-     * @return the players name as a string
-     */
+
     public String getName() {
         return name;
     }
@@ -43,47 +35,32 @@ public class Player {
         this.name = name;
     }
 
-    /**
-     * Gets the players total money
-     *
-     * @return the players total money as a double
-     */
+
     public double getWealth() {
         return wealth;
     }
 
-    /**
-     * Sets the players total money
-     *
-     * @param money as a double
-     */
+
     public void setWealth(double money) {
         this.wealth = money;
     }
 
-    /**
-     * Adds money to the players total money
-     *
-     * @param addMoney as an int
-     */
-    public void addWealth(int addMoney) {
+
+    public double addWealth(int addMoney) {
         this.wealth += addMoney;
+        return this.wealth;
     }
 
-    /**
-     * Gets the players position on the board
-     *
-     * @return the players position as an int
-     */
+    public double subtractWealth(int addMoney) {
+        this.wealth -= addMoney;
+        return this.wealth;
+    }
+
     public int getPosition() {
         return position;
     }
 
-    /**
-     * Sets the players position on the board
-     *
-     * @param position as an int
-     */
+
     public void setPosition(int position) {
         this.position = position;
     }
@@ -102,6 +79,7 @@ public class Player {
                 "name='" + name + '\'' +
                 ", wealth=" + wealth +
                 ", position=" + position +
+                ", jailed=" + inJail +
                 '}';
     }
 

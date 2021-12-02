@@ -9,7 +9,6 @@ public class Dice {
     private int die1;
     private int die2;
 
-    // TODO add docs
     public int rollDie() {
         return (int) (Math.random() * 6) + 1;
     }

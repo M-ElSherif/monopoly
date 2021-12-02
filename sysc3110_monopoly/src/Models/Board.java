@@ -187,8 +187,8 @@ public class Board {
         this.properties.put(position, property);
     }
 
-    public int getJailPosition() {
-        return 10;
+    public int getGoJailPosition() {
+        return 30;
     }
 
     public int getGoPosition() {

@@ -52,12 +52,16 @@ public class GamePlay {
         Property currentProperty = this.game.getProperty(position);
         System.out.println(EventAlertHandler.landedOnPropertyEvent(player, currentProperty));
 
-        // TODO payrent event
+        if (this.payRent(player)) {
+            System.out.println(EventAlertHandler.rentPayEvent(player, currentProperty.getOwner()));
+        }
 
         if (position == this.game.getJailPosition()) {
             System.out.println(EventAlertHandler.jailEvent(player));
             // TODO Put in jail event
         }
+
+
 
         return true;
     }
@@ -71,7 +75,7 @@ public class GamePlay {
         sb.append(player.toString() + "\n");
         sb.append(this.game.printPlayerProperties(player));
 
-        return  sb.toString();
+        return sb.toString();
     }
 
     public Player passTurn(Player player) {
@@ -84,7 +88,7 @@ public class GamePlay {
 
     // TODO add a check method to check if the property is jail
 
-    public boolean buyHouse(Player player, Property property ) {
+    public boolean buyHouse(Player player, Property property) {
         if (this.game.addHouse(property)) {
             ((Street) property).addHouse();
             return true;
@@ -93,7 +97,7 @@ public class GamePlay {
         return false;
     }
 
-    public boolean buyHotel(Player player, Property property ) {
+    public boolean buyHotel(Player player, Property property) {
         if (this.game.addHouse(property)) {
             ((Street) property).addHotel();
             return true;
@@ -126,13 +130,14 @@ public class GamePlay {
     public boolean payRent(Player player) {
         int position = player.getPosition();
 
-        Property property = this.game.getBoard().getProperty(position);
+        Property property = this.game.getProperty(position);
         Player owner = property.getOwner();
-        Player playerToPay = this.game.getPlayer(player);
 
-        if (owner != null) {
+        if (owner == null) {
+            return false;
+        } else {
             double rentCost = property.getRentCost();
-            playerToPay.setWealth(player.getWealth() - rentCost);
+            player.setWealth(player.getWealth() - rentCost);
             owner.setWealth(owner.getWealth() + rentCost);
 
             if (player.isBankrupt()) {

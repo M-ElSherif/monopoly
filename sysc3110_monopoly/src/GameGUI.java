@@ -94,7 +94,6 @@ public class GameGUI {
         switch (choice) {
             case ROLLDICE:
                 int diceRoll = this.gamePlay.rollDice();
-                // TODO first check the dice roll then proceed with moving player
 
                 if (cp.isInJail()) {
                     if (this.gamePlay.isDoubleRollForJailExit(cp)) {

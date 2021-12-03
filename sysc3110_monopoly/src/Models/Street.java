@@ -18,6 +18,8 @@ public class Street extends Property {
         super(name, position, cost, owner);
         this.color = color;
         this.rentCost = cost * 0.15;
+        this.houses = 0;
+        this.hotels = 0;
     }
 
 
@@ -44,5 +46,19 @@ public class Street extends Property {
 
     public void setHotels(int hotels) {
         this.hotels = hotels;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                "color='" + color + '\'' +
+                "# of houses='" + houses + '\'' +
+                "# of hotels='" + hotels + '\'' +
+                "}\n";
     }
 }

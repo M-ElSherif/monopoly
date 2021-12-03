@@ -2,6 +2,8 @@ package Models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * This class serves to store all data relevant to a game of monopoly (persistence)
@@ -69,6 +71,42 @@ public class Game {
     public boolean setPropertyOwner(Player player, Property property) {
         return this.board.setPropertyOwner(player, property);
     }
+
+    /**
+     * Get a map of all properties owned by argument player, maped by color
+     *
+     * @param owner
+     * @return
+     */
+    public Map<String, List<Property>> getMonopolizedProperties(Player owner) {
+        return this.board.getMonopolizedProperties(owner);
+    }
+
+    /**
+     * Check if argument property is part of a monoply owned by argument player
+     *
+     * @param player
+     * @param property
+     * @return
+     */
+    public boolean checkIfPropertyInMonopoly(Player player, Property property) {
+        Map<String, List<Property>> monopProperties = this.getMonopolizedProperties(player);
+
+        List<Property> properties = new ArrayList<>();
+        monopProperties.values().forEach(properties::addAll);
+
+        return properties.contains(property);
+    }
+
+    public String printMonopolizedProperties(Player owner) {
+        Map<String, List<Property>> monopProperties = this.getMonopolizedProperties(owner);
+
+        if (monopProperties != null) {
+            return monopProperties.toString();
+        }
+        return null;
+    }
+
 
     public Player getPropertyOwner(int position) {
         return this.board.getPropertyOwner(position);

@@ -1,11 +1,11 @@
+import Helpers.EventAlertHandler;
 import Models.Game;
 import Models.Player;
 import Models.Property;
-import Models.Street;
+import jdk.jfr.Event;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 public class GamePlay {
 
@@ -56,11 +56,28 @@ public class GamePlay {
             return true;
         }
 
-        if (position == this.game.getJailPosition()) {
+        if (this.game.isJailPosition(position)) {
             System.out.println(EventAlertHandler.jailEnterEvent(player));
             this.goToJail(player);
             this.passTurn(player);
             return true;
+        }
+
+        if (this.game.isTaxPosition(position)) {
+            System.out.println(EventAlertHandler.incomeTaxEvent(player, this.game.getProperty(position)));
+            this.payTax(player);
+        }
+
+        return true;
+    }
+
+    public boolean payTax(Player player) {
+        int position = player.getPosition();
+
+        player.subtractWealth(this.game.getTaxCost(position));
+
+        if (player.isBankrupt()) {
+            EventAlertHandler.bankruptcyAlertEvent(player);
         }
 
         return true;
@@ -71,7 +88,7 @@ public class GamePlay {
     public boolean goToJail(Player player) {
         int position = player.getPosition();
 
-        if (position == this.game.getJailPosition()) {
+        if (this.game.isJailPosition(position)) {
             this.game.putInJail(player);
             return true;
         }

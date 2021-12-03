@@ -45,13 +45,13 @@ public class Player {
     }
 
 
-    public double addWealth(int addMoney) {
+    public double addWealth(double addMoney) {
         this.wealth += addMoney;
         return this.wealth;
     }
 
-    public double subtractWealth(int addMoney) {
-        this.wealth -= addMoney;
+    public double subtractWealth(double subtractMoney) {
+        this.wealth -= subtractMoney;
         return this.wealth;
     }
 

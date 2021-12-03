@@ -1,6 +1,9 @@
+package Helpers;
+
 import Models.Player;
 import Models.Property;
 import Models.Property;
+import Models.Tax;
 
 public class EventAlertHandler {
 
@@ -31,7 +34,7 @@ public class EventAlertHandler {
     }
 
     public static String landedOnPropertyEvent(Player player, Property property) {
-        return String.format("Player %s landed on %s, cost is $%.0f. Property is owned by: %s ",
+        return String.format("Player %s landed on %s, cost is $%.2f. Property is owned by: %s ",
                 player.getName(),
                 property.getName(),
                 property.getCost(),
@@ -62,6 +65,13 @@ public class EventAlertHandler {
     public static String goEvent(Player player) {
         return String.format("Player %s has landed on GO, collect $200!!",
                 player.getName());
+    }
+
+    public static String incomeTaxEvent(Player player, Property property) {
+        return String.format("Player %s has landed on %s and must pay $%.2f",
+                player.getName(),
+                property.getName(),
+                property.getRentCost());
     }
 
     public static String quitGameEvent(Player player) {

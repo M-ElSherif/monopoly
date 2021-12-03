@@ -107,7 +107,6 @@ public class Game {
         return null;
     }
 
-
     public Player getPropertyOwner(int position) {
         return this.board.getPropertyOwner(position);
     }
@@ -150,8 +149,16 @@ public class Game {
         return this.board.printPlayerProperties(player);
     }
 
-    public int getJailPosition() {
-        return this.board.getGoJailPosition();
+    public boolean isJailPosition(int position) {
+        return this.board.isJailPosition(position);
+    }
+
+    public boolean isTaxPosition(int position) {
+        return this.board.isTaxPosition(position);
+    }
+
+    public double getTaxCost(int position) {
+        return this.board.getTaxCost(position);
     }
 
     public int getGoPosition() {

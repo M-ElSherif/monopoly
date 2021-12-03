@@ -2,11 +2,15 @@ package Models;
 
 public class Tax extends Property{
 
+
+
     public Tax(String name,
                int position,
-               double cost,
+               double taxCost,
                Player owner) {
-        super(name, position, cost, null);
-        this.rentCost = 200;
+        super(name, position, 0, null);
+        this.rentCost = taxCost;
     }
+
+
 }

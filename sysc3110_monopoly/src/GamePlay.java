@@ -5,6 +5,7 @@ import Models.Street;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 public class GamePlay {
 
@@ -33,7 +34,6 @@ public class GamePlay {
 
 
     public int movePlayerPosition(Player player, int diceRoll) {
-        // TODO player can do nothing but roll or pay fine if they are in jail
         int newPosition = player.getPosition() + diceRoll;
         int maxPos = this.game.getBoard().getMaxPosition();
 
@@ -95,8 +95,7 @@ public class GamePlay {
         if (player.isBankrupt()) {
             System.out.println(EventAlertHandler.bankruptcyAlertEvent(player));
             return false;
-        }
-        else {
+        } else {
             this.game.removeFromJail(player);
             System.out.println(EventAlertHandler.jailExitPayEvent(player));
         }
@@ -119,23 +118,38 @@ public class GamePlay {
 
     }
 
-    // TODO add a check method to check if the property is chance or chest
+    // TODO add a check method to check if the property is chance or chest to ignore it for purchase
 
-    // TODO add a check method to check if the property is jail
+    // TODO add a check method to check if the property is jail to ignore it for purchase
 
+
+    /**
+     * Add a house to the argument property if it is part of a monoply owned by
+     * argument player
+     *
+     * @param player
+     * @param property
+     * @return
+     */
     public boolean buyHouse(Player player, Property property) {
-        if (this.game.addHouse(property)) {
-            ((Street) property).addHouse();
-            return true;
+        if (this.game.checkIfPropertyInMonopoly(player, property)) {
+            return this.game.addHouse(property);
         }
 
         return false;
     }
 
+    /**
+     * Add a hotel to the argument property if it is part of a monoply owned by
+     * argument player
+     *
+     * @param player
+     * @param property
+     * @return
+     */
     public boolean buyHotel(Player player, Property property) {
-        if (this.game.addHouse(property)) {
-            ((Street) property).addHotel();
-            return true;
+        if (this.game.checkIfPropertyInMonopoly(player, property)) {
+            return this.game.addHotel(property);
         }
 
         return false;
@@ -154,6 +168,29 @@ public class GamePlay {
                 return false;
             } else {
                 this.game.getCurrentPlayer().setWealth(newCurrentPlayerWealth);
+                this.game.setPropertyOwner(cp, property);
+                System.out.println(EventAlertHandler.successPurchaseEvent(property, cp));
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean buyProperty(int position) {
+        Player cp = this.game.getCurrentPlayer();
+        Property property = this.game.getProperty(position);
+
+        if (this.game.setPropertyOwner(cp, property)) {
+            int newCurrentPlayerWealth = (int) (cp.getWealth() - property.getCost());
+
+            if (newCurrentPlayerWealth < 0) {
+                System.out.println(EventAlertHandler.failPurchaseEvent(property, cp));
+
+                return false;
+            } else {
+                this.game.getCurrentPlayer().setWealth(newCurrentPlayerWealth);
+                this.game.setPropertyOwner(cp, property);
                 System.out.println(EventAlertHandler.successPurchaseEvent(property, cp));
 
                 return true;

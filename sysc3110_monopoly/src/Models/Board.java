@@ -8,56 +8,68 @@ import java.util.*;
 
 public class Board {
 
-    HashMap<Integer, Property> properties;
+    final static String RED = "Red";
+    final static String BLUE = "Blue";
+    final static String INDIGO = "Indigo";
+    final static String GREEN = "Green";
+    final static String YELLOW = "Yellow";
+    final static String PINK = "Pink";
+    final static String ORANGE = "Orange";
+    final static String BROWN = "Brown";
 
-    static final Property mayfair = new Street("MAYFAIR", 39, "Indigo", 400, null);
+    HashMap<Integer, Property> properties;
+    Map<String, List<Property>> propertiesByColorMap;
+
+    static final Property mayfair = new Street("MAYFAIR", 39, INDIGO, 400, null);
     static final Property tax2 = new Tax("SUPER TAX", 38, 100, null);
-    static final Property park = new Street("Park Lane", 37, "Indigo", 350, null);
+    static final Property park = new Street("Park Lane", 37, INDIGO, 350, null);
     static final Property chance3 = new Property("CHANCE", 36, 0, null);
     static final Property station4 = new Railroad("LIVERPOOL ST. STATION", 35, 200, null);
-    static final Property bond = new Street("BOND STREET", 34, "Green", 320, null);
+    static final Property bond = new Street("BOND STREET", 34, GREEN, 320, null);
     static final Property chest3 = new Property("COMMUNITY CHEST", 33, 0, null);
-    static final Property oxford = new Street("OXFORD STREET", 32, "Green", 300, null);
-    static final Property regent = new Street("REGENT STREET", 31, "Green", 300, null);
+    static final Property oxford = new Street("OXFORD STREET", 32, GREEN, 300, null);
+    static final Property regent = new Street("REGENT STREET", 31, GREEN, 300, null);
 
     static final Property go_jail = new Property("GO TO JAIL", 30, 0, null);
-    static final Property picadilly = new Street("PICADILLY", 29, "Yellow", 280, null);
+    static final Property picadilly = new Street("PICADILLY", 29, YELLOW, 280, null);
     static final Property water = new Utility("WATER WORKS", 28, 150, null);
-    static final Property coventry = new Street("COVENTRY STREET", 27, "Yellow", 260, null);
-    static final Property leicester = new Street("LEICESTER SQUARE", 26, "Yellow", 260, null);
+    static final Property coventry = new Street("COVENTRY STREET", 27, YELLOW, 260, null);
+    static final Property leicester = new Street("LEICESTER SQUARE", 26, YELLOW, 260, null);
     static final Property station3 = new Railroad("FENCHURCH ST. STATION", 25, 200, null);
-    static final Property trafalgar = new Street("TRAFALGAR SQUARE", 24, "Red", 240, null);
-    static final Property fleet = new Street("FLEET STREET", 23, "Red", 220, null);
+    static final Property trafalgar = new Street("TRAFALGAR SQUARE", 24, RED, 240, null);
+    static final Property fleet = new Street("FLEET STREET", 23, RED, 220, null);
     static final Property chance2 = new Property("CHANCE", 22, 220, null);
-        static final Property strand = new Street("STRAND", 21, "Red", 220, null);
+    static final Property strand = new Street("STRAND", 21, RED, 220, null);
 
     static final Property parking = new Property("FREE PARKING", 20, 0, null);
-    static final Property vine = new Street("VINE STREET", 19, "Orange", 200, null);
-    static final Property marlborough = new Street("MARLBOROUGH STREET", 18, "Orange", 180, null);
+    static final Property vine = new Street("VINE STREET", 19, ORANGE, 200, null);
+    static final Property marlborough = new Street("MARLBOROUGH STREET", 18, ORANGE, 180, null);
     static final Property chest2 = new Property("COMMUNITY CHEST", 17, 0, null);
-    static final Property bow = new Street("BOW STREET", 16, "Orange", 180, null);
+    static final Property bow = new Street("BOW STREET", 16, ORANGE, 180, null);
     static final Property station2 = new Railroad("MARYLEBONE STATION", 15, 200, null);
-    static final Property northave = new Street("NORTHUMRL'D AVENUE", 14, "Pink", 160, null);
-    static final Property whitehall = new Street("WHITEHALL", 13, "Pink", 140, null);
+    static final Property northave = new Street("NORTHUMRL'D AVENUE", 14, PINK, 160, null);
+    static final Property whitehall = new Street("WHITEHALL", 13, PINK, 140, null);
     static final Property company = new Utility("ELECTRIC COMPANY", 12, 150, null);
-    static final Property mall = new Street("PALL MALL", 11, "Pink", 140, null);
+    static final Property mall = new Street("PALL MALL", 11, PINK, 140, null);
 
     static final Property jail = new Property("JAIL/VISITING", 10, 0, null);
-    static final Property pentonville = new Street("PENTONVILLE ROAD", 9, "Blue", 120, null);
-    static final Property euston = new Street("EUSTON ROAD", 8, "Blue", 100, null);
+    static final Property pentonville = new Street("PENTONVILLE ROAD", 9, BLUE, 120, null);
+    static final Property euston = new Street("EUSTON ROAD", 8, BLUE, 100, null);
     static final Property chance1 = new Property("CHANCE", 7, 0, null);
-    static final Property angel = new Street("THE ANGEL ISLINGTON", 6, "Blue", 100, null);
-    static final Property station1 = new Railroad("KINGS CROSS STATION", 5,  200, null);
+    static final Property angel = new Street("THE ANGEL ISLINGTON", 6, BLUE, 100, null);
+    static final Property station1 = new Railroad("KINGS CROSS STATION", 5, 200, null);
     static final Property tax1 = new Tax("INCOME TAX", 4, 200, null);
-    static final Property chapel = new Street("WHITECHAPEL ROAD", 3, "Brown", 60, null);
+    static final Property chapel = new Street("WHITECHAPEL ROAD", 3, BROWN, 60, null);
     static final Property chest1 = new Property("COMMUNITY CHEST", 2, 0, null);
-    static final Property kent = new Street("OLD KENT ROAD", 1, "Brown", 60, null);
+    static final Property kent = new Street("OLD KENT ROAD", 1, BROWN, 60, null);
     static final Property go = new Property("GO ", 0, 0, null);
 
 
     public Board() {
         properties = new HashMap<>();
         this.createBoard();
+        propertiesByColorMap = new HashMap<>();
+        propertiesByColorMap = this.storePropertiesSameColor();
     }
 
     /**
@@ -122,7 +134,7 @@ public class Board {
     public List<Property> getPlayerProperties(Player player) {
         List<Property> playerProperties = new ArrayList<>();
 
-        for (Property p : this.properties.values() ) {
+        for (Property p : this.properties.values()) {
             if (p.getOwner() != null && p.getOwner().equals(player)) {
                 playerProperties.add(p);
             }
@@ -183,6 +195,83 @@ public class Board {
         return this.properties.get(position);
     }
 
+    /**
+     * Returns a "map<color, properties>" of all properties of color monopolized by a player
+     *
+     * @param owner
+     * @return
+     */
+    public Map<String, List<Property>> getMonopolizedProperties(Player owner) {
+
+        List<Property> monopolizedProperties = new ArrayList<>();
+        Map<String, List<Property>> monopPropertiesMap = new HashMap<>();
+
+        for (String colorKey : this.propertiesByColorMap.keySet()) {
+            List<Property> properties = this.propertiesByColorMap.get(colorKey);
+            if (checkPropertiesOfColorSameOwner(properties, owner)) {
+                monopPropertiesMap.put(colorKey, properties);
+            }
+        }
+
+        return monopPropertiesMap;
+    }
+
+    /**
+     * Stores all properties of the same color within the hashmap
+     *
+     * @return
+     */
+    public Map<String, List<Property>> storePropertiesSameColor() {
+        this.propertiesByColorMap.put(RED, this.getPropertiesByColor(RED));
+        this.propertiesByColorMap.put(BLUE, this.getPropertiesByColor(BLUE));
+        this.propertiesByColorMap.put(INDIGO, this.getPropertiesByColor(INDIGO));
+        this.propertiesByColorMap.put(GREEN, this.getPropertiesByColor(GREEN));
+        this.propertiesByColorMap.put(YELLOW, this.getPropertiesByColor(YELLOW));
+        this.propertiesByColorMap.put(PINK, this.getPropertiesByColor(PINK));
+        this.propertiesByColorMap.put(ORANGE, this.getPropertiesByColor(ORANGE));
+        this.propertiesByColorMap.put(BROWN, this.getPropertiesByColor(BROWN));
+
+        return this.propertiesByColorMap;
+    }
+
+    /**
+     * Return a list of properties of the argument color
+     *
+     * @param color
+     * @return
+     */
+    public List<Property> getPropertiesByColor(String color) {
+        List<Property> propertiesOfColor = new ArrayList<>();
+
+        for (Property p : this.properties.values()) {
+            if (p instanceof Street) {
+                if (((Street) p).getColor().equals(color)) {
+                    propertiesOfColor.add(p);
+                }
+            }
+        }
+
+        return propertiesOfColor;
+    }
+
+    /**
+     * check if all properties of a color belong to the same argument owner
+     *
+     * @param propertiesOfColor
+     * @param owner
+     * @return
+     */
+    public boolean checkPropertiesOfColorSameOwner(List<Property> propertiesOfColor, Player owner) {
+        for (Property p : propertiesOfColor) {
+            if (p.getOwner() == null || !p.getOwner().equals(owner)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public void setProperty(int position, Property property) {
         this.properties.put(position, property);
     }
@@ -194,7 +283,6 @@ public class Board {
     public int getGoPosition() {
         return 0;
     }
-
 
 
 }

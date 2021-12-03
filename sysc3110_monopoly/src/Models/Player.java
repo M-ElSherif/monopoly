@@ -13,7 +13,6 @@ public class Player {
     private int position;
     private boolean inJail;
 
-
     public Player(String name) {
         this.name = name;
         this.wealth = 1500;

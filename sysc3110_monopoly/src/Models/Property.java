@@ -76,7 +76,7 @@ public class Property {
 
     @Override
     public String toString() {
-        return "Property{" +
+        return "Property{ " +
                 "name='" + name + '\'' +
                 '}';
     }

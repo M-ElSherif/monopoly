@@ -276,8 +276,27 @@ public class Board {
         this.properties.put(position, property);
     }
 
-    public int getGoJailPosition() {
-        return 30;
+    public boolean isJailPosition(int position) {
+        return position == 30;
+    }
+
+    public boolean isTaxPosition(int position) {
+        return position == 38 || position == 4;
+    }
+
+
+    /**
+     * Get the amount of tax payment required from the tax properties
+     *
+     * @param position
+     * @return
+     */
+    public double getTaxCost(int position) {
+        if (this.isTaxPosition(position)) {
+            return this.properties.get(position).getRentCost();
+        }
+
+        return 0;
     }
 
     public int getGoPosition() {
